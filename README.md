@@ -11,7 +11,7 @@ El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 | Propuesta | Archivo | Estado |
 | --- | --- | --- |
 | Escudito Ligero y 3D suave: comparación y elección | `index.html` | En revisión del equipo |
-| Muestra del Centro de Ayuda, con ambas versiones | `centro-ayuda-demo.html` | Maqueta con contenido de ejemplo |
+| Muestra del Centro de Ayuda, con ambas versiones | `centro-ayuda-demo.html` | Maqueta con repertorios reales y flujos guiados |
 | Propuesta original de colores (opciones A, B y C) | `colores-originales.html` | Conservada |
 
 ## Cómo se publica
@@ -26,6 +26,21 @@ El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 - Maqueta: https://cuidamostuheridainfo.github.io/centro-ayuda-gespro-propuestas/centro-ayuda-demo.html
 - Las dos versiones comparten controles de color, gesto y giro. 3D suave conserva el grosor reducido un 40 %.
 - Cada integrante copia su elección y la envía al grupo. La página no registra votos ni transmite información.
-- La maqueta usa contenido de ejemplo; no incluye manuales, videos ni datos internos. La conversación es una demostración, sin IA conectada.
+- La maqueta muestra referencias al catálogo real: 40 videos de la academia, 28 videos de Drive y seis manuales por módulo. Son repertorios separados y pueden compartir temas; no se presentan como 68 videos únicos. Los originales permanecen en sus ubicaciones.
+- Incluye una respuesta guiada con fuente y tiempos del tutorial de Cotizaciones, y un flujo alternativo para preparar un ticket de prueba. No hay IA, envío de tickets ni almacenamiento de formularios.
 - El modelo 3D carga Three.js 0.170.0 desde jsDelivr y requiere WebGL. Se muestra un aviso si no puede iniciarse.
 - Respeta la preferencia de movimiento reducido. La propuesta original de colores se conserva sin cambios.
+
+## Contenido real y demostraciones
+
+- Respuesta con fuente: `centro-ayuda-demo.html?consulta=cotizacion`.
+- Sin respuesta y oferta de soporte: `centro-ayuda-demo.html?consulta=sin-respuesta`.
+- La demostración responde solo a las formulaciones preparadas de conversión de cotización a pedido. Cualquier otra consulta ofrece ayuda sin afirmar que se buscó exhaustivamente en todo el repertorio.
+- La respuesta procede de la transcripción de `02-GesPro-Entrenamiento-Cotizaciones.mp4`, tramo 1:01–1:12. El manual de ventas aparece como material relacionado.
+- «Simular creación del ticket» produce únicamente una vista previa DEMO-001 en memoria. No envía ni guarda datos.
+- La página mantiene a Escudito primero en teléfono y a la derecha en escritorio.
+- Catálogo contrastado con las páginas y la carpeta de Drive el 25 de noviembre de 2026.
+
+## Selección de identidad
+
+Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GESPRO**. La maqueta usa esta selección de forma predeterminada; mantiene el grosor reducido un 40 %. Los controles permiten comparar otras opciones.
