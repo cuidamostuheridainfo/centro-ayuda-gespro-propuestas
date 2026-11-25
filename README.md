@@ -44,3 +44,10 @@ El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 ## Selección de identidad
 
 Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GESPRO**. La maqueta usa esta selección de forma predeterminada; mantiene el grosor reducido un 40 %. Los controles permiten comparar otras opciones.
+
+## Navegación por temas
+
+- «Explora los videos» muestra tarjetas de temas siguiendo los ocho módulos de la academia. Se conserva la selección de repertorio Academia/Drive; los videos de Drive se agrupan por los temas que indican sus títulos.
+- Cada tarjeta abre `videos-tema.html` con los videos del tema y del repertorio elegidos. Los enlaces originales permanecen intactos.
+- La página del tema incluye el icono de Escudito en color A: vuelve a la página principal, abre el asistente y enfoca la consulta. Se conserva el tema como orientación; no se envía ninguna pregunta automáticamente.
+- La búsqueda filtra los temas y conserva su término al abrir los videos. La vuelta a todos los temas respeta el repertorio elegido.
