@@ -60,3 +60,10 @@ Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GES
 - El icono de Escudito junto al reproductor lleva a la consulta con el tema y video seleccionados. Para MP4 también conserva el instante actual; en Drive no se puede leer el tiempo del visor externo.
 - Los enlaces de video de la respuesta de ejemplo abren el reproductor del Centro de Ayuda.
 - El alojamiento definitivo sigue pendiente. No se han migrado ni subido videos a otra plataforma.
+
+## Escudito como entrada única de búsqueda
+
+- La cabecera principal conserva el título y los indicadores de contenido. Se retiraron los dos textos introductorios y el buscador separado.
+- El campo de Escudito acepta palabras, temas y consultas. Las palabras y temas buscan en los títulos, descripciones y módulos de ambos repertorios, además de los manuales. Los resultados de video se reproducen en el centro.
+- Las consultas preparadas conservan sus respuestas con fuentes; cuando no hay respuesta ni materiales coincidentes, se ofrece el ticket de prueba. La búsqueda no sustituye al agente de IA pendiente.
+- La búsqueda local dentro de una lista de videos se mantiene para recorrer ese tema.
