@@ -7,6 +7,7 @@ function videos(data,source){return source==='drive'?data.drive.map(v=>({...v,mo
 function normalize(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
 function grouped(data,source,search=''){const term=normalize(search);return data.modules.map(m=>{const all=videos(data,source).filter(v=>v.module===m.key),matched=all.filter(v=>!term||normalize([m.name,v.title,v.description||''].join(' ')).includes(term));return {...m,...themes[m.key],total:all.length,videos:matched};}).filter(m=>m.videos.length);}
 function topicUrl(key,source,search=''){const params=new URLSearchParams({tema:key,origen:source});if(search)params.set('buscar',search);return 'videos-tema.html?'+params.toString();}
-function assistantUrl(key,source){return 'centro-ayuda-demo.html?'+new URLSearchParams({preguntar:'1',tema:key,origen:source}).toString();}
-const api={themes,driveTheme,videos,grouped,normalize,topicUrl,assistantUrl};if(typeof module==='object'&&module.exports)module.exports=api;else root.GesproTopics=api;
+function assistantUrl(key,source,video,time){const p=new URLSearchParams({preguntar:'1',tema:key,origen:source});if(video)p.set('video',video);if(Number.isFinite(time)&&time>0)p.set('tiempo',Math.floor(time));return 'centro-ayuda-demo.html?'+p.toString();}
+function playbackUrl(data,url){for(const origin of ['academy','drive']){const v=videos(data,origin).find(x=>x.url===url);if(v)return topicUrl(v.module,origin)+'&video='+encodeURIComponent(v.id);}return url;}
+const api={themes,driveTheme,videos,grouped,normalize,topicUrl,assistantUrl,playbackUrl};if(typeof module==='object'&&module.exports)module.exports=api;else root.GesproTopics=api;
 })(typeof window!=='undefined'?window:globalThis);

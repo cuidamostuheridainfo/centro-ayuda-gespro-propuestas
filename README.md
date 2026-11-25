@@ -51,3 +51,12 @@ Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GES
 - Cada tarjeta abre `videos-tema.html` con los videos del tema y del repertorio elegidos. Los enlaces originales permanecen intactos.
 - La página del tema incluye el icono de Escudito en color A: vuelve a la página principal, abre el asistente y enfoca la consulta. Se conserva el tema como orientación; no se envía ninguna pregunta automáticamente.
 - La búsqueda filtra los temas y conserva su término al abrir los videos. La vuelta a todos los temas respeta el repertorio elegido.
+
+## Reproducción dentro del Centro de Ayuda
+
+- Cada tema tiene un reproductor propio y botones «Reproducir aquí». Se mantiene un solo video activo.
+- Los 40 videos de la academia usan las URLs MP4 y portadas de su catálogo público, sin duplicar los archivos. Los 28 videos de Drive usan su visor incrustado y conservan sus permisos.
+- Al elegir un video no se inicia el audio automáticamente.
+- El icono de Escudito junto al reproductor lleva a la consulta con el tema y video seleccionados. Para MP4 también conserva el instante actual; en Drive no se puede leer el tiempo del visor externo.
+- Los enlaces de video de la respuesta de ejemplo abren el reproductor del Centro de Ayuda.
+- El alojamiento definitivo sigue pendiente. No se han migrado ni subido videos a otra plataforma.
