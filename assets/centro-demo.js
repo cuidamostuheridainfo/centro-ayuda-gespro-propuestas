@@ -28,6 +28,6 @@ if(params.get('preguntar')==='1'){
 panel.hidden=false;layout.classList.remove('chat-closed');open.hidden=true;
 const selectedTopic=data.modules.find(m=>m.key===params.get('tema'));
 if(selectedTopic){const context=node('p','Vienes de los videos de '+selectedTopic.name+'. ¿Qué necesitas resolver?','assistant-topic-context');q('#ask-form').before(context);q('#ask-input').placeholder='Pregunta sobre '+selectedTopic.name+'…';}
-requestAnimationFrame(()=>{q('#ask-input').focus();q('#ask-input').scrollIntoView({block:'center',behavior:'auto'});});
+q('#ask-input').focus({preventScroll:true});q('#ask-input').scrollIntoView({block:'center',behavior:'auto'});
 }
 })();
