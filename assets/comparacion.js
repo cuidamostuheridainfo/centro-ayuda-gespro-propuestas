@@ -1,0 +1,14 @@
+(()=>{
+'use strict';
+const frames=[...document.querySelectorAll('.model')],palette=document.getElementById('palette'),pose=document.getElementById('pose'),angle=document.getElementById('angle'),output=document.getElementById('angle-output'),play=document.getElementById('play'),copy=document.getElementById('copy'),message=document.getElementById('vote-message'),feedback=document.getElementById('feedback');
+let choice=null,running=false,raf=0;const origin=location.protocol==='file:'?'*':location.origin;
+function control(){const data={type:'escudito-control',palette:palette.value,pose:pose.value,angle:Number(angle.value)};for(const f of frames)f.contentWindow?.postMessage(data,origin);output.value=angle.value+'°';document.getElementById('context-link').href=`centro-ayuda-demo.html?version=${choice||'3d'}&palette=${palette.value}`;}
+function vote(){if(!choice)return;message.value=`Mi elección para Escudito es ${choice==='ligero'?'Ligero (relieve suave)':'3D suave (volumen redondeado)'}, con el color ${palette.value}: ${palette.selectedOptions[0].textContent.replace(/^. · /,'')}.`;copy.disabled=false;feedback.textContent='';control();}
+for(const b of document.querySelectorAll('[data-choice]'))b.addEventListener('click',()=>{choice=b.dataset.choice;for(const other of document.querySelectorAll('[data-choice]'))other.setAttribute('aria-pressed',String(other===b));vote();});
+palette.addEventListener('change',()=>{control();vote();});pose.addEventListener('change',control);
+function stop(){running=false;cancelAnimationFrame(raf);play.textContent='Ver ambas en movimiento';}
+angle.addEventListener('input',()=>{stop();control();});
+play.addEventListener('click',()=>{if(running){stop();return;}if(matchMedia('(prefers-reduced-motion:reduce)').matches){angle.value=Number(angle.value)<0?45:-45;control();return;}running=true;play.textContent='Pausar movimiento';const start=performance.now(),from=Number(angle.value);function step(now){const t=Math.min(1,(now-start)/6500),blend=Math.min(1,t*8);angle.value=Math.round(from*(1-blend)+Math.sin(t*Math.PI*2)*52*blend);control();if(t<1&&running)raf=requestAnimationFrame(step);else{stop();angle.value=-30;control();}}raf=requestAnimationFrame(step);});
+copy.addEventListener('click',async()=>{if(!choice)return;try{await navigator.clipboard.writeText(message.value);feedback.textContent='Mensaje copiado. Ya puedes pegarlo en el grupo.';}catch{message.focus();message.select();feedback.textContent='Seleccionamos el mensaje para que puedas copiarlo manualmente.';}});
+window.addEventListener('message',e=>{if(!frames.some(f=>f.contentWindow===e.source))return;if(location.protocol!=='file:'&&e.origin!==location.origin)return;if(e.data?.type==='escudito-ready')control();});frames.forEach(f=>f.addEventListener('load',control));control();
+})();

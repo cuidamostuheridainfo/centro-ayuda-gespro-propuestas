@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Escudito Ligero</title><style>html,body{margin:0;width:100%;min-height:100%;background:transparent;font-family:system-ui,sans-serif;color-scheme:light}body{padding:16px}body.embedded{padding:0;height:100dvh;overflow:hidden}body.embedded #escudito-volume>.es-caption,body.embedded #escudito-volume>.es-controls,body.embedded #escudito-volume>.es-angle,body.embedded #escudito-volume>.es-rotation,body.embedded #escudito-volume>.es-status{display:none}body.embedded #escudito-volume>.es-status[role=alert]{display:block;position:absolute;bottom:10px;left:10px;right:10px;font-size:14px}body.embedded #escudito-volume>div:first-of-type:not(.es-stage):not(.es-figure){display:none}body.embedded #escudito-volume .es-stage{height:100dvh!important;width:100%}body.embedded #escudito-volume .es-figure{width:min(86vw,300px);height:min(86vw,300px)}</style></head><body><script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embedded');</script><div id="escudito-volume" aria-label="Propuesta interactiva de Escudito con volumen">
+  <style>
+    #escudito-volume { --es-left:#A9B4C2; --es-right:#1F5FAA; --es-gold:#D9A04A; --es-ink:#1A2033; --es-paper:#FFFFFF; --es-text:light-dark(#1A2033,#E7EDF6); --es-surface:light-dark(#F2F5F8,#182231); --es-line:light-dark(#D4DDE8,#3D4B60); font-family:system-ui,sans-serif; color:var(--es-text); }
+    #escudito-volume .es-stage { height:350px; display:grid; place-items:center; perspective:850px; overflow:hidden; touch-action:pan-y; }
+    #escudito-volume .es-figure { position:relative; width:290px; height:290px; transform-style:preserve-3d; transform:rotateX(-5deg) rotateY(-18deg); will-change:transform; }
+    #escudito-volume .es-layer { position:absolute; inset:0; width:100%; height:100%; overflow:visible; backface-visibility:hidden; }
+    #escudito-volume .es-depth { position:absolute; inset:0; transform-style:preserve-3d; }
+    #escudito-volume .es-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:end; }
+    #escudito-volume .es-field { display:grid; gap:6px; flex:1 1 180px; min-width:0; }
+    #escudito-volume select, #escudito-volume button { font:inherit; color:var(--es-text); background:var(--es-surface); border:1px solid var(--es-line); border-radius:10px; padding:10px 12px; min-height:44px; max-width:100%; }
+    #escudito-volume button { cursor:pointer; }
+    #escudito-volume input[type=range] { width:100%; accent-color:var(--es-right); min-height:36px; }
+    #escudito-volume .es-angle { display:grid; gap:6px; margin-top:16px; }
+    #escudito-volume .es-caption { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    #escudito-volume .es-small { display:flex; align-items:center; gap:10px; }
+    #escudito-volume .es-small svg { width:38px; height:44px; }
+    #escudito-volume .es-front { transform:translateZ(14px); }
+    #escudito-volume .es-armfront { transform:translateZ(6px); }
+    #escudito-volume .es-face { transform:translateZ(19px); }
+    #escudito-volume .es-crest { transform:translateZ(20px); }
+    #escudito-volume .es-floor { position:absolute; width:190px; height:28px; background:radial-gradient(ellipse,light-dark(#1A203330,#00000070),transparent 70%); transform:translateY(128px) rotateX(72deg) translateZ(-28px); }
+    #escudito-volume .es-status { margin-top:12px; min-height:22px; }
+    @media(max-width:420px) { #escudito-volume .es-stage { height:310px; } #escudito-volume .es-figure { width:250px; height:250px; } }
+    @media(prefers-reduced-motion:reduce) { #escudito-volume .es-figure { will-change:auto; } }
+  </style>
+  <div class="es-caption"><span>Escudito · volumen suave</span><span class="es-small"><svg viewBox="18 0 84 112" role="img" aria-label="Escudito en tamaño pequeño"><path d="M60 16 L97 30 V62 C97 86 81 100 60 108 C39 100 23 86 23 62 V30 Z" fill="var(--es-left)"/><path d="M60 16 L97 30 V62 C97 86 81 100 60 108 Z" fill="var(--es-right)"/><polygon points="60,3 72,23 60,17 48,23" fill="var(--es-gold)"/><g fill="var(--es-paper)" stroke="var(--es-ink)" stroke-width="1.4"><ellipse cx="47" cy="56" rx="9" ry="10"/><ellipse cx="73" cy="56" rx="9" ry="10"/></g><g fill="var(--es-ink)"><circle cx="48" cy="58" r="4.6"/><circle cx="74" cy="58" r="4.6"/></g><path d="M50 73 Q60 82 70 73" stroke="var(--es-ink)" stroke-width="3.2" fill="none" stroke-linecap="round"/></svg><span>Versión pequeña</span></span></div>
+  <div class="es-stage" aria-label="Escudito giratorio; también puedes controlar el giro con el deslizador">
+    <div class="es-figure">
+      <div class="es-floor"></div>
+      <div class="es-depth"></div>
+      <svg class="es-layer es-armfront" viewBox="-9 -4 138 120" role="img" aria-label="Manos de Escudito">
+        <path d="M26 70 Q15 74 12 63" stroke="var(--es-left)" stroke-width="7.5" fill="none" stroke-linecap="round"/>
+        <circle cx="12" cy="59" r="8" fill="var(--es-paper)" stroke="var(--es-left)" stroke-width="2.6"/>
+        <g class="es-rightarm" style="transform-origin:94px 64px">
+          <path class="es-armpath" d="M94 64 Q108 58 108 43" stroke="var(--es-right)" stroke-width="7.5" fill="none" stroke-linecap="round"/>
+          <circle class="es-hand" cx="108" cy="38" r="8" fill="var(--es-paper)" stroke="var(--es-right)" stroke-width="2.6"/>
+          <path d="M104 35 Q108 32 112 35" stroke="var(--es-left)" stroke-width="1.2" fill="none" opacity=".65"/>
+        </g>
+      </svg>
+      <svg class="es-layer es-front" viewBox="-9 -4 138 120" role="img" aria-label="Escudo bicolor con borde y relieve">
+        <defs>
+          <linearGradient id="es-relief" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#FFFFFF" stop-opacity=".5"/><stop offset=".34" stop-color="#FFFFFF" stop-opacity=".05"/><stop offset=".65" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#1A2033" stop-opacity=".28"/></linearGradient>
+          <linearGradient id="es-rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF" stop-opacity=".75"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".08"/><stop offset="1" stop-color="#1A2033" stop-opacity=".4"/></linearGradient>
+          <linearGradient id="es-goldlight" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF" stop-opacity=".5"/><stop offset=".45" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#1A2033" stop-opacity=".22"/></linearGradient>
+        </defs>
+        <path d="M60 16 L97 30 V62 C97 86 81 100 60 108 C39 100 23 86 23 62 V30 Z" fill="var(--es-left)"/>
+        <path d="M60 16 L97 30 V62 C97 86 81 100 60 108 Z" fill="var(--es-right)"/>
+        <path d="M60 16 L97 30 V62 C97 86 81 100 60 108 C39 100 23 86 23 62 V30 Z" fill="url(#es-relief)" stroke="url(#es-rim)" stroke-width="2.2"/>
+        <path d="M28 34 V61 Q28 87 59 101" stroke="#FFFFFF" stroke-opacity=".23" stroke-width="1.2" fill="none"/>
+        <path d="M60 22 V98" stroke="#FFFFFF" stroke-opacity=".13" stroke-width="1"/>
+      </svg>
+      <svg class="es-layer es-crest" viewBox="-9 -4 138 120" aria-hidden="true"><polygon points="60,3 72,23 60,17 48,23" fill="var(--es-gold)"/><polygon points="60,3 72,23 60,17 48,23" fill="url(#es-goldlight)"/><path d="M60 3 V17 L48 23" stroke="#FFFFFF" stroke-opacity=".35" fill="none" stroke-width=".8"/></svg>
+      <svg class="es-layer es-face" viewBox="-9 -4 138 120" role="img" aria-label="Cara sonriente de Escudito">
+        <g class="es-eyes"><g fill="var(--es-paper)" stroke="var(--es-ink)" stroke-width="1.4"><ellipse cx="47" cy="56" rx="9" ry="10"/><ellipse cx="73" cy="56" rx="9" ry="10"/></g>
+        <g class="es-pupils"><g fill="var(--es-ink)"><circle cx="48" cy="58" r="4.6"/><circle cx="74" cy="58" r="4.6"/></g><g fill="var(--es-paper)"><circle cx="49.5" cy="56.3" r="1.6"/><circle cx="75.5" cy="56.3" r="1.6"/></g></g></g>
+        <g fill="var(--es-gold)" opacity=".45"><ellipse cx="38" cy="71" rx="5" ry="3"/><ellipse cx="82" cy="71" rx="5" ry="3"/></g>
+        <path class="es-mouth" d="M50 73 Q60 82 70 73" stroke="var(--es-ink)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+  <div class="es-controls">
+    <label class="es-field">Colores<select class="es-palette"><option value="A">A · Gris y azul GESPRO</option><option value="B">B · Gris y azul claro</option><option value="C">C · Dos azules claros</option></select></label>
+    <label class="es-field">Gesto<select class="es-pose"><option value="saludo">Saludando</option><option value="pensando">Pensando</option><option value="respuesta">Respondiendo</option></select></label>
+    <button class="es-demo" type="button">Ver movimiento lateral</button>
+  </div>
+  <label class="es-angle"><span>Giro lateral <output class="es-degrees">−18°</output></span><input class="es-range" type="range" min="-55" max="55" step="1" value="-18" aria-label="Giro lateral de Escudito en grados"/></label>
+  <div class="es-status" aria-live="polite">Paleta A · Saludando</div>
+  <script>
+  (()=>{
+    const root=document.getElementById('escudito-volume');
+    const q=s=>root.querySelector(s), figure=q('.es-figure'), stage=q('.es-stage');
+    const shield='M60 16 L97 30 V62 C97 86 81 100 60 108 C39 100 23 86 23 62 V30 Z';
+    q('.es-depth').innerHTML=Array.from({length:22},(_,i)=>`<svg class="es-layer" style="transform:translateZ(${i-8}px)" viewBox="-9 -4 138 120" aria-hidden="true"><path d="${shield}" fill="var(--es-right)"/><path d="${shield}" fill="#1A2033" opacity="${.46-i*.008}"/><path d="M60 16 L97 30" stroke="#FFFFFF" stroke-opacity=".16" stroke-width=".7"/></svg>`).join('');
+    const palettes={A:['#A9B4C2','#1F5FAA'],B:['#A9B4C2','#6E9FDB'],C:['#B9D2F0','#5B8FD0']};
+    const names={saludo:'Saludando',pensando:'Pensando',respuesta:'Respondiendo'};
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+    let state={palette:'C',pose:'saludo',angle:-30}, running=false, raf=0, armAnim=null;
+    const saved=null;
+    if(saved && palettes[saved.palette] && names[saved.pose]) state={palette:saved.palette,pose:saved.pose,angle:Math.max(-28,Math.min(28,Number(saved.angle)||0))};
+    function persist(){}
+    function turn(a){state.angle=Math.round(a); figure.style.transform=`rotateX(-5deg) rotateY(${a}deg)`;q('.es-range').value=state.angle;q('.es-degrees').value=state.angle+'°';}
+    function stop(){running=false;cancelAnimationFrame(raf);q('.es-demo').textContent='Ver movimiento lateral';}
+    function render(){
+      const colors=palettes[state.palette];root.style.setProperty('--es-left',colors[0]);root.style.setProperty('--es-right',colors[1]);
+      q('.es-palette').value=state.palette;q('.es-pose').value=state.pose;
+      const thinking=state.pose==='pensando', reply=state.pose==='respuesta';
+      q('.es-armpath').setAttribute('d',thinking?'M94 70 Q100 92 80 92':reply?'M94 66 Q106 66 110 58':'M94 64 Q108 58 108 43');
+      q('.es-hand').setAttribute('cx',thinking?'76':reply?'112':'108');q('.es-hand').setAttribute('cy',thinking?'92':reply?'54':'38');
+      q('.es-rightarm path:last-child').style.opacity=thinking||reply?'0':'.65';
+      q('.es-mouth').setAttribute('d',thinking?'M59 74 Q62 70 65 74 Q68 80 62 81 Q57 81 59 74':reply?'M50 72 Q60 86 70 72 Z':'M50 73 Q60 82 70 73');
+      q('.es-mouth').setAttribute('fill',thinking||reply?'var(--es-ink)':'none');
+      q('.es-pupils').setAttribute('transform',thinking?'translate(3 -4)':'translate(0 0)');
+      armAnim?.cancel();armAnim=null;
+      if(state.pose==='saludo'&&!reduced.matches)armAnim=q('.es-rightarm').animate([{transform:'rotate(0deg)'},{transform:'rotate(-14deg)'},{transform:'rotate(6deg)'},{transform:'rotate(-10deg)'},{transform:'rotate(0deg)'}],{duration:1700,iterations:1});
+      turn(state.angle);q('.es-status').textContent=`Paleta ${state.palette} · ${names[state.pose]}`;
+    }
+    q('.es-palette').addEventListener('change',e=>{state.palette=e.target.value;render();persist();});
+    q('.es-pose').addEventListener('change',e=>{state.pose=e.target.value;render();persist();});
+    q('.es-range').addEventListener('input',e=>{stop();turn(Number(e.target.value));});
+    q('.es-range').addEventListener('change',persist);
+    stage.addEventListener('pointermove',e=>{if(running||reduced.matches||e.pointerType==='touch')return;const b=stage.getBoundingClientRect();turn(Math.max(-28,Math.min(28,((e.clientX-b.left)/b.width-.5)*56)));if(state.pose!=='pensando')q('.es-pupils').setAttribute('transform',`translate(${state.angle/12} 0)`);});
+    stage.addEventListener('pointerleave',()=>{if(running)return;turn(0);q('.es-pupils').setAttribute('transform',state.pose==='pensando'?'translate(3 -4)':'translate(0 0)');persist();});
+    q('.es-demo').addEventListener('click',()=>{
+      if(running){stop();persist();return;}
+      if(reduced.matches){turn(state.angle<0?22:-22);persist();return;}
+      running=true;q('.es-demo').textContent='Pausar movimiento';const start=performance.now(), from=state.angle;
+      function frame(now){const t=Math.min(1,(now-start)/4800);const blend=Math.min(1,t*8);turn(from*(1-blend)+Math.sin(t*Math.PI*2)*25*blend);if(t<1&&running)raf=requestAnimationFrame(frame);else{stop();turn(0);persist();}}
+      raf=requestAnimationFrame(frame);
+    });
+    window.addEventListener('escudito-unused-state',e=>{const s=e.detail?.globals?.widgetState?.modelContent;if(s&&palettes[s.palette]&&names[s.pose]){stop();state={palette:s.palette,pose:s.pose,angle:Math.max(-28,Math.min(28,Number(s.angle)||0))};render();}});
+    
+const parameters=new URLSearchParams(location.search);
+if(palettes[parameters.get('palette')])state.palette=parameters.get('palette');
+if(names[parameters.get('pose')])state.pose=parameters.get('pose');
+if(parameters.has('angle'))state.angle=Math.max(-55,Math.min(55,Number(parameters.get('angle'))||0));
+function externalControl(s){if(!s||s.type!=='escudito-control'||!palettes[s.palette]||!names[s.pose]||!Number.isFinite(s.angle))return;const changed=state.palette!==s.palette||state.pose!==s.pose;state.palette=s.palette;state.pose=s.pose;state.angle=Math.max(-55,Math.min(55,s.angle));stop();if(changed)render();else turn(state.angle);}
+window.addEventListener('message',e=>{if(e.source!==parent)return;if(location.protocol!=='file:'&&e.origin!==location.origin)return;externalControl(e.data);});
+if(parent!==window)parent.postMessage({type:'escudito-ready'},location.protocol==='file:'?'*':location.origin);
+
+render();
+  })();
+  </script>
+</div>
+</body></html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Escudito 3D suave</title><style>html,body{margin:0;width:100%;min-height:100%;background:transparent;font-family:system-ui,sans-serif;color-scheme:light}body{padding:16px}body.embedded{padding:0;height:100dvh;overflow:hidden}body.embedded #escudito-sculpted>.es-caption,body.embedded #escudito-sculpted>.es-controls,body.embedded #escudito-sculpted>.es-angle,body.embedded #escudito-sculpted>.es-rotation,body.embedded #escudito-sculpted>.es-status{display:none}body.embedded #escudito-sculpted>.es-status[role=alert]{display:block;position:absolute;bottom:10px;left:10px;right:10px;font-size:14px}body.embedded #escudito-sculpted>div:first-of-type:not(.es-stage):not(.es-figure){display:none}body.embedded #escudito-sculpted .es-stage{height:100dvh!important;width:100%}body.embedded #escudito-sculpted .es-figure{width:min(86vw,300px);height:min(86vw,300px)}</style></head><body><script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embedded');</script><div id="escudito-sculpted" aria-label="Escudito tridimensional">
+<style>
+#escudito-sculpted { font-family:system-ui,sans-serif; color:light-dark(#1A2033,#E7EDF6); --es-ui:light-dark(#F2F5F8,#182231); --es-line:light-dark(#D4DDE8,#3D4B60); }
+#escudito-sculpted .es-stage { height:390px; width:100%; position:relative; touch-action:pan-y; }
+#escudito-sculpted canvas { display:block; width:100%; height:100%; }
+#escudito-sculpted .es-controls { display:flex; gap:12px; align-items:end; flex-wrap:wrap; }
+#escudito-sculpted label { display:grid; gap:6px; flex:1 1 175px; min-width:0; }
+#escudito-sculpted select, #escudito-sculpted button { font:inherit; color:inherit; background:var(--es-ui); border:1px solid var(--es-line); padding:10px 12px; border-radius:10px; min-height:44px; max-width:100%; }
+#escudito-sculpted button { cursor:pointer; }
+#escudito-sculpted .es-rotation { margin-top:16px; }
+#escudito-sculpted input { width:100%; min-height:36px; accent-color:#1F5FAA; }
+#escudito-sculpted .es-status { margin-top:10px; min-height:22px; }
+@media(max-width:420px) { #escudito-sculpted .es-stage { height:330px; } }
+</style>
+<div>Escudito · 40 % menos de grosor</div>
+<div class="es-stage" role="img" aria-label="Escudito con escudo bicolor volumétrico, copete dorado, ojos y manos redondeadas"></div>
+<div class="es-controls">
+<label>Colores<select class="es-palette"><option value="A">A · Gris y azul GESPRO</option><option value="B">B · Gris y azul claro</option><option value="C">C · Dos azules claros</option></select></label>
+<label>Gesto<select class="es-pose"><option value="saludo">Saludando</option><option value="pensando">Pensando</option><option value="respuesta" selected>Respondiendo</option></select></label>
+<button class="es-play" type="button">Ver giro de lado a lado</button>
+</div>
+<label class="es-rotation"><span>Giro lateral <output class="es-angle">−35°</output></span><input class="es-range" type="range" min="-55" max="55" step="1" value="-35" aria-label="Giro lateral en grados"/></label>
+<div class="es-status" aria-live="polite">Preparando vista tridimensional…</div>
+<script>
+(async()=>{
+const root=document.getElementById('escudito-sculpted'), q=s=>root.querySelector(s), stage=q('.es-stage');
+try {
+const T=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js');
+const renderer=new T.WebGLRenderer({alpha:true,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setClearColor(0,0);
+renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+renderer.domElement.setAttribute('aria-label','Modelo de Escudito con volumen y giro lateral');stage.appendChild(renderer.domElement);
+const scene=new T.Scene(), camera=new T.PerspectiveCamera(34,1,.1,1000);camera.position.set(0,13,267);camera.lookAt(0,1,0);
+scene.add(new T.HemisphereLight(0xFFFFFF,0x67768D,2.2));
+const key=new T.DirectionalLight(0xFFFFFF,3.1);key.position.set(-90,140,160);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-120;key.shadow.camera.right=120;key.shadow.camera.top=110;key.shadow.camera.bottom=-110;key.shadow.normalBias=.1;scene.add(key);
+const rim=new T.DirectionalLight(0xDDEAFF,2.0);rim.position.set(100,65,-100);scene.add(rim);
+const fill=new T.DirectionalLight(0xFFFFFF,.6);fill.position.set(100,-15,130);scene.add(fill);
+const figure=new T.Group();figure.scale.z=0.6;scene.add(figure);
+const v=(x,y,z=0)=>new T.Vector3(x-60,60-y,z);
+const mat=(c,rough=.4)=>new T.MeshStandardMaterial({color:c,roughness:rough,metalness:.07});
+const left=mat('#A9B4C2'),right=mat('#1F5FAA'),gold=mat('#D9A04A',.3),white=mat('#FFFFFF',.28),ink=mat('#1A2033',.5);
+const skin=new T.MeshStandardMaterial({color:'#FFFFFF',roughness:.38,metalness:.12});
+const split={left:{value:new T.Color('#A9B4C2')},right:{value:new T.Color('#1F5FAA')}};
+skin.onBeforeCompile=s=>{s.uniforms.esLeft=split.left;s.uniforms.esRight=split.right;s.vertexShader='varying float esX;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nesX=position.x;');s.fragmentShader='uniform vec3 esLeft; uniform vec3 esRight; varying float esX;\n'+s.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb *= mix(esLeft,esRight,step(0.0,esX));');};
+function mesh(geometry,material,parent=figure){const m=new T.Mesh(geometry,material);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
+const shape=new T.Shape();shape.moveTo(0,44);shape.lineTo(37,30);shape.lineTo(37,-2);shape.bezierCurveTo(37,-26,21,-40,0,-48);shape.bezierCurveTo(-21,-40,-37,-26,-37,-2);shape.lineTo(-37,30);shape.closePath();
+const bodyGeo=new T.ExtrudeGeometry(shape,{depth:28,bevelEnabled:true,bevelSegments:8,steps:1,bevelSize:4.5,bevelThickness:5,curveSegments:36});bodyGeo.translate(0,0,-14);mesh(bodyGeo,skin);
+const tuft=new T.Shape();tuft.moveTo(0,57);tuft.lineTo(12,37);tuft.lineTo(0,43);tuft.lineTo(-12,37);tuft.closePath();
+const tuftMesh=mesh(new T.ExtrudeGeometry(tuft,{depth:7,bevelEnabled:true,bevelSegments:4,bevelSize:.65,bevelThickness:.9,curveSegments:12}),gold);tuftMesh.position.z=12;
+function ball(x,y,z,rx,ry,rz,material,parent=figure){const m=mesh(new T.SphereGeometry(1,32,24),material,parent);m.position.copy(v(x,y,z));m.scale.set(rx,ry,rz);return m;}
+function tube(points,r,material,parent=figure){return mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),36,r,12,false),material,parent);}
+function quadratic(x1,y1,x2,y2,x3,y3,z,r,material,parent=figure){const c=new T.QuadraticBezierCurve3(v(x1,y1,z),v(x2,y2,z),v(x3,y3,z));return mesh(new T.TubeGeometry(c,40,r,12,false),material,parent);}
+const pupilGroup=new T.Group();figure.add(pupilGroup);
+for(const x of [47,73]){
+ball(x,56,20,9.6,10.6,3.9,ink);ball(x,56,21,9,10,4.2,white);
+ball(x+1,58,25.1,4.6,4.8,1.9,ink,pupilGroup);ball(x+2.5,56.3,26.85,1.55,1.55,.6,white,pupilGroup);
+}
+const cheekMat=mat('#D9A04A',.6);ball(38,71,19.5,4.5,2.3,.4,cheekMat);ball(82,71,19.5,4.5,2.3,.4,cheekMat);
+quadratic(26,70,15,74,12,63,0,3.8,left);ball(12,59,1,8,8,7,white);
+let armGroup=null,mouthGroup=null;
+const floor=new T.Mesh(new T.PlaneGeometry(400,300),new T.ShadowMaterial({opacity:.16}));floor.rotation.x=-Math.PI/2;floor.position.y=-60;floor.receiveShadow=true;scene.add(floor);
+const palettes={A:['#A9B4C2','#1F5FAA'],B:['#A9B4C2','#6E9FDB'],C:['#B9D2F0','#5B8FD0']},names={saludo:'Saludando',pensando:'Pensando',respuesta:'Respondiendo'};
+let state={version:2,palette:'C',pose:'saludo',angle:-30},raf=0,running=false;
+const saved=null;
+if(saved?.version===2&&palettes[saved.palette]&&names[saved.pose])state={version:2,palette:saved.palette,pose:saved.pose,angle:Math.max(-55,Math.min(55,Number(saved.angle)||0))};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+function draw(){renderer.render(scene,camera);}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.position.z=camera.aspect<1?305:267;camera.updateProjectionMatrix();draw();}
+new ResizeObserver(resize).observe(stage);
+function persist(){}
+function turn(a){state.angle=Math.round(a);figure.rotation.y=T.MathUtils.degToRad(a);q('.es-angle').value=state.angle+'°';q('.es-range').value=state.angle;draw();}
+function clean(group){if(!group)return;figure.remove(group);group.traverse(o=>o.geometry?.dispose());}
+function render(){
+const colors=palettes[state.palette];left.color.set(colors[0]);right.color.set(colors[1]);split.left.value.set(colors[0]);split.right.value.set(colors[1]);
+clean(armGroup);clean(mouthGroup);armGroup=new T.Group();mouthGroup=new T.Group();figure.add(armGroup,mouthGroup);
+if(state.pose==='pensando'){
+quadratic(94,70,100,92,80,92,1,3.8,right,armGroup);ball(76,92,7,8,8,7,white,armGroup);
+const c=new T.EllipseCurve(2,-17,3.6,4.2,0,Math.PI*2,false,0);tube(c.getPoints(32).map(p=>new T.Vector3(p.x,p.y,20.2)),1.1,ink,mouthGroup);pupilGroup.position.set(2.5,3,0);
+}else if(state.pose==='respuesta'){
+quadratic(94,66,106,66,110,58,1,3.8,right,armGroup);ball(112,54,4,8,8,7,white,armGroup);
+quadratic(50,72,60,86,70,72,20.7,1.65,ink,mouthGroup);quadratic(50,72,60,75,70,72,20.7,1.2,ink,mouthGroup);pupilGroup.position.set(0,0,0);
+}else{
+quadratic(94,64,108,58,108,43,1,3.8,right,armGroup);ball(108,38,4,8,8,7,white,armGroup);quadratic(50,73,60,82,70,73,20.7,1.6,ink,mouthGroup);pupilGroup.position.set(0,0,0);
+}
+q('.es-palette').value=state.palette;q('.es-pose').value=state.pose;q('.es-status').textContent=`Paleta ${state.palette} · ${names[state.pose]}`;turn(state.angle);
+}
+function stop(){running=false;cancelAnimationFrame(raf);q('.es-play').textContent='Ver giro de lado a lado';}
+q('.es-palette').addEventListener('change',e=>{state.palette=e.target.value;render();persist();});q('.es-pose').addEventListener('change',e=>{state.pose=e.target.value;render();persist();});
+q('.es-range').addEventListener('input',e=>{stop();turn(Number(e.target.value));});q('.es-range').addEventListener('change',persist);
+stage.addEventListener('pointermove',e=>{if(running||reduced.matches||e.pointerType==='touch')return;const b=stage.getBoundingClientRect();turn(Math.max(-55,Math.min(55,((e.clientX-b.left)/b.width-.5)*110)));});
+stage.addEventListener('pointerleave',()=>{if(!running)persist();});
+q('.es-play').addEventListener('click',()=>{if(running){stop();persist();return;}if(reduced.matches){turn(state.angle<0?50:-50);persist();return;}
+running=true;q('.es-play').textContent='Pausar giro';const start=performance.now(),from=state.angle;
+function frame(now){const t=Math.min(1,(now-start)/6500), blend=Math.min(1,t*8);turn(from*(1-blend)+Math.sin(t*Math.PI*2)*52*blend);if(t<1&&running)raf=requestAnimationFrame(frame);else{stop();turn(-35);persist();}}raf=requestAnimationFrame(frame);});
+window.addEventListener('escudito-unused-state',e=>{const s=e.detail?.globals?.widgetState?.modelContent;if(s?.version===2&&palettes[s.palette]&&names[s.pose]){stop();state={version:2,palette:s.palette,pose:s.pose,angle:Math.max(-55,Math.min(55,Number(s.angle)||0))};render();}});
+
+const parameters=new URLSearchParams(location.search);
+if(palettes[parameters.get('palette')])state.palette=parameters.get('palette');
+if(names[parameters.get('pose')])state.pose=parameters.get('pose');
+if(parameters.has('angle'))state.angle=Math.max(-55,Math.min(55,Number(parameters.get('angle'))||0));
+function externalControl(s){if(!s||s.type!=='escudito-control'||!palettes[s.palette]||!names[s.pose]||!Number.isFinite(s.angle))return;const changed=state.palette!==s.palette||state.pose!==s.pose;state.palette=s.palette;state.pose=s.pose;state.angle=Math.max(-55,Math.min(55,s.angle));stop();if(changed)render();else turn(state.angle);}
+window.addEventListener('message',e=>{if(e.source!==parent)return;if(location.protocol!=='file:'&&e.origin!==location.origin)return;externalControl(e.data);});
+if(parent!==window)parent.postMessage({type:'escudito-ready'},location.protocol==='file:'?'*':location.origin);
+
+render();resize();
+}catch(error){q('.es-status').textContent='No se pudo mostrar la vista 3D en este dispositivo.';q('.es-status').setAttribute('role','alert');console.error(error);}
+})();
+</script>
+</div>
+</body></html>
