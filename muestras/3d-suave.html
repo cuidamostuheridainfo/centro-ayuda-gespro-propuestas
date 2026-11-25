@@ -65,7 +65,7 @@ const palettes={A:['#A9B4C2','#1F5FAA'],B:['#A9B4C2','#6E9FDB'],C:['#B9D2F0','#5
 let state={version:2,palette:'C',pose:'saludo',angle:-30},raf=0,running=false;
 const saved=null;
 if(saved?.version===2&&palettes[saved.palette]&&names[saved.pose])state={version:2,palette:saved.palette,pose:saved.pose,angle:Math.max(-55,Math.min(55,Number(saved.angle)||0))};
-const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');let attention=false,reactionFrame=0,reactionTimer=0;
 function draw(){renderer.render(scene,camera);}
 function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.position.z=camera.aspect<1?305:267;camera.updateProjectionMatrix();draw();}
 new ResizeObserver(resize).observe(stage);
@@ -84,12 +84,13 @@ quadratic(50,72,60,86,70,72,20.7,1.65,ink,mouthGroup);quadratic(50,72,60,75,70,7
 }else{
 quadratic(94,64,108,58,108,43,1,3.8,right,armGroup);ball(108,38,4,8,8,7,white,armGroup);quadratic(50,73,60,82,70,73,20.7,1.6,ink,mouthGroup);pupilGroup.position.set(0,0,0);
 }
-q('.es-palette').value=state.palette;q('.es-pose').value=state.pose;q('.es-status').textContent=`Paleta ${state.palette} · ${names[state.pose]}`;turn(state.angle);
+const shoulder=v(94,64,1);armGroup.position.copy(shoulder);for(const part of armGroup.children)part.position.sub(shoulder);
+q('.es-palette').value=state.palette;q('.es-pose').value=state.pose;q('.es-status').textContent=`Paleta ${state.palette} · ${names[state.pose]}`;turn(state.angle);applyLook();
 }
 function stop(){running=false;cancelAnimationFrame(raf);q('.es-play').textContent='Ver giro de lado a lado';}
 q('.es-palette').addEventListener('change',e=>{state.palette=e.target.value;render();persist();});q('.es-pose').addEventListener('change',e=>{state.pose=e.target.value;render();persist();});
 q('.es-range').addEventListener('input',e=>{stop();turn(Number(e.target.value));});q('.es-range').addEventListener('change',persist);
-stage.addEventListener('pointermove',e=>{if(running||reduced.matches||e.pointerType==='touch')return;const b=stage.getBoundingClientRect();turn(Math.max(-55,Math.min(55,((e.clientX-b.left)/b.width-.5)*110)));});
+stage.addEventListener('pointermove',e=>{if(parameters.get('interactive')==='1'||running||reduced.matches||e.pointerType==='touch')return;const b=stage.getBoundingClientRect();turn(Math.max(-55,Math.min(55,((e.clientX-b.left)/b.width-.5)*110)));});
 stage.addEventListener('pointerleave',()=>{if(!running)persist();});
 q('.es-play').addEventListener('click',()=>{if(running){stop();persist();return;}if(reduced.matches){turn(state.angle<0?50:-50);persist();return;}
 running=true;q('.es-play').textContent='Pausar giro';const start=performance.now(),from=state.angle;
@@ -102,9 +103,24 @@ if(names[parameters.get('pose')])state.pose=parameters.get('pose');
 if(parameters.has('angle'))state.angle=Math.max(-55,Math.min(55,Number(parameters.get('angle'))||0));
 function externalControl(s){if(!s||s.type!=='escudito-control'||!palettes[s.palette]||!names[s.pose]||!Number.isFinite(s.angle))return;const changed=state.palette!==s.palette||state.pose!==s.pose;state.palette=s.palette;state.pose=s.pose;state.angle=Math.max(-55,Math.min(55,s.angle));stop();if(changed)render();else turn(state.angle);}
 window.addEventListener('message',e=>{if(e.source!==parent)return;if(location.protocol!=='file:'&&e.origin!==location.origin)return;externalControl(e.data);});
+
+function parentMessage(type){if(parent!==window)parent.postMessage({type},location.protocol==='file:'?'*':location.origin);}
+function applyLook(){pupilGroup.position.set(attention?.5:state.pose==='pensando'?2.5:0,attention?-3:state.pose==='pensando'?3:0,0);figure.rotation.x=attention?.055:0;stage.dataset.attention=attention?'on':'off';if(parameters.get('interactive')==='1')stage.setAttribute('aria-label',attention?'Escudito mira hacia tu consulta. Toca para saludar.':'Toca a Escudito para saludar y escribir una consulta.');draw();}
+function engage(){
+cancelAnimationFrame(reactionFrame);clearTimeout(reactionTimer);stop();const oldPose=state.pose,angle=state.angle;
+state.pose='saludo';render();parentMessage('escudito-engage');stage.setAttribute('aria-label','Escudito te está saludando.');
+function finish(){figure.position.y=0;state.pose=oldPose;state.angle=angle;render();applyLook();}
+if(reduced.matches){reactionTimer=setTimeout(finish,800);return;}
+const start=performance.now();function animate(now){const t=Math.min(1,(now-start)/1100);armGroup.rotation.z=Math.sin(t*Math.PI*6)*.28*(1-t);figure.position.y=Math.sin(t*Math.PI)*1.8;figure.rotation.y=T.MathUtils.degToRad(angle+Math.sin(t*Math.PI)*7);draw();if(t<1)reactionFrame=requestAnimationFrame(animate);else finish();}reactionFrame=requestAnimationFrame(animate);
+}
+if(parameters.get('interactive')==='1'){
+stage.setAttribute('role','button');stage.tabIndex=0;stage.style.cursor='pointer';renderer.domElement.setAttribute('aria-hidden','true');stage.addEventListener('click',engage);stage.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();engage();}});
+window.addEventListener('message',e=>{if(e.source!==parent||location.protocol!=='file:'&&e.origin!==location.origin)return;if(e.data?.type==='escudito-attention'){attention=e.data.active===true;applyLook();}});
+}
+
 if(parent!==window)parent.postMessage({type:'escudito-ready'},location.protocol==='file:'?'*':location.origin);
 
-render();resize();
+render();resize();applyLook();
 }catch(error){q('.es-status').textContent='No se pudo mostrar la vista 3D en este dispositivo.';q('.es-status').setAttribute('role','alert');console.error(error);}
 })();
 </script>

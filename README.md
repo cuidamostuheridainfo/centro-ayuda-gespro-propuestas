@@ -67,3 +67,11 @@ Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GES
 - El campo de Escudito acepta palabras, temas y consultas. Las palabras y temas buscan en los títulos, descripciones y módulos de ambos repertorios, además de los manuales. Los resultados de video se reproducen en el centro.
 - Las consultas preparadas conservan sus respuestas con fuentes; cuando no hay respuesta ni materiales coincidentes, se ofrece el ticket de prueba. La búsqueda no sustituye al agente de IA pendiente.
 - La búsqueda local dentro de una lista de videos se mantiene para recorrer ese tema.
+
+## Interacción y color
+
+- Escudito 3D suave reacciona al toque, clic, Enter o espacio con un saludo breve y activa la consulta.
+- Al enfocar o escribir en la consulta dirige la mirada hacia abajo, al campo. Al salir recupera su mirada habitual.
+- Las tarjetas de temas tienen acentos de color; el personaje conserva gris `#A9B4C2`, azul GESPRO `#1F5FAA` y copete `#D9A04A` (paleta A).
+- Se conservan las dos preguntas de ejemplo y la profundidad reducida un 40 %.
+- El saludo respeta movimiento reducido y los mensajes entre la figura y el asistente validan origen y ventana.
