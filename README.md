@@ -3,15 +3,15 @@
 Repositorio **público**, solo para mostrar propuestas de diseño al equipo y recoger su opinión.
 Se publica con GitHub Pages, y el enlace se comparte con el equipo.
 
-**Aquí no va contenido interno**: ni manuales, ni videos, ni datos de empresas, ni la app de campo.
+**Aquí no se suben archivos internos**: ni manuales, ni videos, ni datos de empresas, ni la app de campo. Para la prueba de diseño, la maqueta solo enlaza al catálogo público de la Academia GESPRO y a los videos de Drive, que conservan sus permisos.
 El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 
 ## Propuestas abiertas
 
 | Propuesta | Archivo | Estado |
 | --- | --- | --- |
-| Escudito Ligero y 3D suave: comparación y elección | `index.html` | En revisión del equipo |
-| Muestra del Centro de Ayuda, con ambas versiones | `centro-ayuda-demo.html` | Maqueta con repertorios reales y flujos guiados |
+| Escudito Ligero y 3D suave: comparación | `index.html` | Cerrada: elegido 3D suave, color A (25 nov 2026) |
+| Muestra del Centro de Ayuda con Escudito 3D suave, color A | `centro-ayuda-demo.html` | Maqueta vigente, con repertorios reales y flujos guiados |
 | Propuesta original de colores (opciones A, B y C) | `colores-originales.html` | Conservada |
 
 ## Cómo se publica
@@ -24,8 +24,8 @@ El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 
 - Comparación: https://cuidamostuheridainfo.github.io/centro-ayuda-gespro-propuestas/
 - Maqueta: https://cuidamostuheridainfo.github.io/centro-ayuda-gespro-propuestas/centro-ayuda-demo.html
-- Las dos versiones comparten controles de color, gesto y giro. 3D suave conserva el grosor reducido un 40 %.
-- Cada integrante copia su elección y la envía al grupo. La página no registra votos ni transmite información.
+- La comparación conserva sus controles de color, gesto y giro. La maqueta ya no los tiene: usa solo la versión elegida, 3D suave con el grosor reducido un 40 %.
+- La revisión del equipo quedó cerrada con la elección de Jenny. La página no registra votos ni transmite información.
 - La maqueta muestra referencias al catálogo real: 40 videos de la academia, 28 videos de Drive y seis manuales por módulo. Son repertorios separados y pueden compartir temas; no se presentan como 68 videos únicos. Los originales permanecen en sus ubicaciones.
 - Incluye una respuesta guiada con fuente y tiempos del tutorial de Cotizaciones, y un flujo alternativo para preparar un ticket de prueba. No hay IA, envío de tickets ni almacenamiento de formularios.
 - El modelo 3D carga Three.js 0.170.0 desde jsDelivr y requiere WebGL. Se muestra un aviso si no puede iniciarse.
@@ -43,7 +43,7 @@ El sitio real vive en el repositorio privado `centro-ayuda-gespro`.
 
 ## Selección de identidad
 
-Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GESPRO**. La maqueta usa esta selección de forma predeterminada; mantiene el grosor reducido un 40 %. Los controles permiten comparar otras opciones.
+Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GESPRO**. La maqueta usa esta selección de forma predeterminada; mantiene el grosor reducido un 40 %.
 
 ## Navegación por temas
 
@@ -59,7 +59,7 @@ Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GES
 - Al elegir un video no se inicia el audio automáticamente.
 - El icono de Escudito junto al reproductor lleva a la consulta con el tema y video seleccionados. Para MP4 también conserva el instante actual; en Drive no se puede leer el tiempo del visor externo.
 - Los enlaces de video de la respuesta de ejemplo abren el reproductor del Centro de Ayuda.
-- El alojamiento definitivo sigue pendiente. No se han migrado ni subido videos a otra plataforma.
+- El alojamiento definitivo será Cloudflare Stream. Todavía no se ha migrado ni subido ningún video.
 
 ## Escudito como entrada única de búsqueda
 
@@ -75,3 +75,9 @@ Jenny eligió Escudito **3D suave (volumen redondeado), color A: gris y azul GES
 - Las tarjetas de temas tienen acentos de color; el personaje conserva gris `#A9B4C2`, azul GESPRO `#1F5FAA` y copete `#D9A04A` (paleta A).
 - Se conservan las dos preguntas de ejemplo y la profundidad reducida un 40 %.
 - El saludo respeta movimiento reducido y los mensajes entre la figura y el asistente validan origen y ventana.
+
+## Pendiente
+
+- El agente de IA de Escudito y el envío real de tickets.
+- La migración de los videos a Cloudflare Stream.
+- El subdominio definitivo dentro de ethicalshields.ai (no decidido).
