@@ -1,18 +1,16 @@
 (()=>{
 'use strict';
 const q=s=>document.querySelector(s),data=window.GesproContent,knowledge=window.GesproDemo,params=new URLSearchParams(location.search);
-const version=q('#demo-version'),palette=q('#demo-palette'),frame=q('.assistant-model'),panel=q('.assistant-panel'),layout=q('.help-layout'),open=q('.open-chat');
+const frame=q('.assistant-model'),panel=q('.assistant-panel'),layout=q('.help-layout'),open=q('.open-chat');
 let lastQuestion='',lastAnswer=null,ticketText='',pose='saludo',videoSource=params.get('origen')==='drive'?'drive':'academy',searchTerm='';
 const viewedVideo=window.GesproTopics.videos(data,params.get('origen')==='drive'?'drive':'academy').find(v=>v.id===params.get('video'));
 function videoContext(){if(!viewedVideo)return '';const second=Number(params.get('tiempo'));const at=Number.isFinite(second)&&second>0?' · '+Math.floor(second/60)+':'+String(Math.floor(second)%60).padStart(2,'0'):'';return 'Video consultado: '+viewedVideo.title+at+'.';}
-version.value=params.get('version')==='ligero'?'ligero':'3d';palette.value=['A','B','C'].includes(params.get('palette'))?params.get('palette'):'A';
-function updateModel(){const wanted=`muestras/${version.value==='ligero'?'ligero':'3d-suave'}.html?embed=1&palette=${palette.value}&pose=${pose}&angle=-15${version.value==='3d'?'&interactive=1&v=vida-1':''}`;if(frame.getAttribute('src')!==wanted)frame.src=wanted;}
+function updateModel(){const wanted=`muestras/3d-suave.html?embed=1&palette=A&pose=${pose}&angle=-15&interactive=1&v=vida-1`;if(frame.getAttribute('src')!==wanted)frame.src=wanted;}
 
 function sendAttention(active){panel.dataset.attention=active?'on':'off';frame.contentWindow?.postMessage({type:'escudito-attention',active},location.protocol==='file:'?'*':location.origin);}
 q('#ask-input').addEventListener('focus',()=>sendAttention(true));q('#ask-input').addEventListener('input',()=>sendAttention(true));q('#ask-input').addEventListener('blur',()=>sendAttention(false));
 window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||location.protocol!=='file:'&&e.origin!==location.origin)return;if(e.data?.type==='escudito-engage'){q('#assistant-engagement').textContent='¡Aquí estoy! Escribe lo que necesitas encontrar.';q('#ask-input').focus({preventScroll:true});sendAttention(true);}else if(e.data?.type==='escudito-ready')sendAttention(document.activeElement===q('#ask-input'));});
 frame.addEventListener('load',()=>sendAttention(document.activeElement===q('#ask-input')));
-version.addEventListener('change',updateModel);palette.addEventListener('change',updateModel);
 q('.close-chat').addEventListener('click',()=>{panel.hidden=true;layout.classList.add('chat-closed');open.hidden=false;open.focus();});open.addEventListener('click',()=>{panel.hidden=false;layout.classList.remove('chat-closed');open.hidden=true;q('.close-chat').focus();panel.scrollIntoView({block:'nearest',behavior:'smooth'});});
 function node(tag,text,cls){const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el;}
 function link(text,url,cls){const a=node('a',text,cls);a.href=url;if(!url.startsWith('videos-tema.html')){a.target='_blank';a.rel='noopener';}return a;}
